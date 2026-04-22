@@ -11,8 +11,12 @@ require("./config/db");
 app.use(cors());
 app.use(express.json());
 
+const resepRoutes = require("./routes/resepRoutes");
+
+app.use("/api/resep", resepRoutes);
+
 app.get("/", (req, res) => {
-  res.json({ message: "API Resep Nusantara jalan" });
+  res.json({ message: "API jalan" });
 });
 
 const PORT = process.env.PORT || 5000;
