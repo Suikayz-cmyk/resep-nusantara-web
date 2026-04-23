@@ -7,6 +7,8 @@ import AddRecipeModal from "./components/AddRecipeModal";
 import "./App.css";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
   const [recipes, setRecipes] = useState([]);
 
   const [kategori, setKategori] = useState("");
@@ -31,11 +33,21 @@ function App() {
   }, []);
 
   const getRecipes = async () => {
+  try {
+    setLoading(true);
+
     const response = await axios.get(
       "http://localhost:5000/api/resep"
     );
+
     setRecipes(response.data);
-  };
+
+  } catch (error) {
+    console.log(error);
+  } finally {
+    setLoading(false);
+  }
+};
 
 const submitRecipe = async () => {
   try {
@@ -160,7 +172,17 @@ const submitRecipe = async () => {
         </button>
       </div>
 
-      <RecipeList data={currentData} />
+      {loading ? (
+        <p className="status-text">
+          Loading resep...
+        </p>
+      ) : currentData.length === 0 ? (
+        <p className="status-text">
+          Tidak ada resep ditemukan.
+        </p>
+      ) : (
+        <RecipeList data={currentData} />
+      )}
 
       {totalPages > 1 && (
         <Pagination
@@ -169,6 +191,10 @@ const submitRecipe = async () => {
           setCurrentPage={setCurrentPage}
         />
       )}
+
+      <footer className="footer">
+        <p>Resep Nusantara © 2026</p>
+      </footer>
     </div>
   );
 }
