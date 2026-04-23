@@ -13,6 +13,33 @@ function AddRecipeModal({
     });
   };
 
+  const handleArrayChange = (type, index, value) => {
+    const updated = [...formData[type]];
+    updated[index] = value;
+
+    setFormData({
+      ...formData,
+      [type]: updated
+    });
+  };
+
+  const addField = (type) => {
+    setFormData({
+      ...formData,
+      [type]: [...formData[type], ""]
+    });
+  };
+
+  const removeField = (type, index) => {
+    const updated = [...formData[type]];
+    updated.splice(index, 1);
+
+    setFormData({
+      ...formData,
+      [type]: updated
+    });
+  };
+
   return (
     <div
       className="modal-overlay"
@@ -24,9 +51,8 @@ function AddRecipeModal({
       >
         <div className="modal-header">
           <h2>Tambah Resep</h2>
-          <button
-            onClick={() => setIsOpen(false)}
-          >
+
+          <button onClick={() => setIsOpen(false)}>
             ✖
           </button>
         </div>
@@ -64,8 +90,82 @@ function AddRecipeModal({
           <option value="Sulit">Sulit</option>
         </select>
 
+        <h3 className="section-title">Bahan</h3>
+
+        {formData.bahan.map((item, index) => (
+          <div key={index} className="dynamic-row">
+            <input
+              type="text"
+              placeholder={`Bahan ${index + 1}`}
+              value={item}
+              onChange={(e) =>
+                handleArrayChange(
+                  "bahan",
+                  index,
+                  e.target.value
+                )
+              }
+            />
+
+            {formData.bahan.length > 1 && (
+              <button
+                className="remove-btn"
+                onClick={() =>
+                  removeField("bahan", index)
+                }
+              >
+                ✖
+              </button>
+            )}
+          </div>
+        ))}
+
+        <button
+          className="mini-btn"
+          onClick={() => addField("bahan")}
+        >
+          + Tambah Bahan
+        </button>
+
+        <h3 className="section-title">Langkah</h3>
+
+        {formData.langkah.map((item, index) => (
+          <div key={index} className="dynamic-row">
+            <input
+              type="text"
+              placeholder={`Langkah ${index + 1}`}
+              value={item}
+              onChange={(e) =>
+                handleArrayChange(
+                  "langkah",
+                  index,
+                  e.target.value
+                )
+              }
+            />
+
+            {formData.langkah.length > 1 && (
+              <button
+                className="remove-btn"
+                onClick={() =>
+                  removeField("langkah", index)
+                }
+              >
+                ✖
+              </button>
+            )}
+          </div>
+        ))}
+
+        <button
+          className="mini-btn"
+          onClick={() => addField("langkah")}
+        >
+          + Tambah Langkah
+        </button>
+
         <button className="submit-btn">
-          Submit
+          Submit Resep
         </button>
       </div>
     </div>

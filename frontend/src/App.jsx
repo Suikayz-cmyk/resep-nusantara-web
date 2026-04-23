@@ -21,7 +21,9 @@ function App() {
   const [formData, setFormData] = useState({
     nama: "",
     kategori: "",
-    kesulitan: ""
+    kesulitan: "",
+    bahan: [""],
+    langkah: [""]
   });
 
   useEffect(() => {
