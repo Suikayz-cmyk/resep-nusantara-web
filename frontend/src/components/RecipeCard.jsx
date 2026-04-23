@@ -18,23 +18,25 @@ function RecipeCard({
         onClick={() => setOpen(!open)}
       >
         <h2>{resep.nama}</h2>
-       <button
-        className="delete-mini-btn"
-        onClick={(e) => {
-          e.stopPropagation();
-          deleteRecipe(resep.id);
-        }}
-      >
-        <Trash2 size={16} />
-      </button>
-       
-          {open ? (
-            <ChevronUp size={18} />
-          ) : (
-            <ChevronDown size={18} />
-          )}
+          <div className="header-actions">
+        <button
+          className="delete-mini-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            deleteRecipe(resep.id);
+          }}
+        >
+          <Trash2 size={16} />
+        </button>
 
+        {open ? (
+          <ChevronUp size={18} />
+        ) : (
+          <ChevronDown size={18} />
+        )}
       </div>
+      </div>
+      
 
       <p>Kategori: {resep.kategori}</p>
       <p>Kesulitan: {resep.kesulitan}</p>
