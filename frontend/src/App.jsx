@@ -158,9 +158,11 @@ function App() {
     startIndex + itemsPerPage
   );
 
-  return (
-    <>
+return (
+  <div className="app-wrapper">
+    <div className="main-content">
       <div className="container">
+
         <div className="page-card">
           <h1>Resep Nusantara</h1>
         </div>
@@ -213,18 +215,18 @@ function App() {
           setFormData={setFormData}
           submitRecipe={submitRecipe}
         />
-      </div>
 
-      <footer className="footer">
-        <div className="footer-inner">
-          <p>Resep Nusantara</p>
-          <span>
-            UMKM Digital Project • 2026
-          </span>
-        </div>
-      </footer>
-    </>
-  );
+      </div>
+    </div>
+
+    <footer className="footer">
+      <div className="footer-inner">
+        <p>Resep Nusantara</p>
+        <span>UMKM Digital Project • 2026</span>
+      </div>
+    </footer>
+  </div>
+);
 }
 
 export default App;
