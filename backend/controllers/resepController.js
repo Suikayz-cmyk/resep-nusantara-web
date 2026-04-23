@@ -41,7 +41,24 @@ const addResep = (req, res) => {
   });
 };
 
+const deleteResep = (req, res) => {
+  const { id } = req.params;
+
+  const sql = "DELETE FROM resep WHERE id = ?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      return res.status(500).json(err);
+    }
+
+    res.json({
+      message: "Resep berhasil dihapus"
+    });
+  });
+};
+
 module.exports = {
   getAllResep,
   addResep,
+  deleteResep
 };

@@ -313,3 +313,37 @@ h1 {
   color: #777;
   font-size: 14px;
 }
+.delete-btn {
+  margin-top: 14px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: crimson;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  opacity: 0.92;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.delete-mini-btn {
+  border: none;
+  background: crimson;
+  color: white;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-mini-btn:hover {
+  opacity: 0.9;
+}

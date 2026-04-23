@@ -1,6 +1,9 @@
 import { useState } from "react";
 
-function RecipeCard({ resep }) {
+function RecipeCard({
+  resep,
+  deleteRecipe
+}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -10,6 +13,13 @@ function RecipeCard({ resep }) {
         onClick={() => setOpen(!open)}
       >
         <h2>{resep.nama}</h2>
+        <button
+          className="delete-mini-btn"
+          onClick={() => deleteRecipe(resep.id)}
+        >
+        🗑
+        </button>
+       
         <span>{open ? "▲" : "▼"}</span>
       </div>
 
@@ -32,6 +42,7 @@ function RecipeCard({ resep }) {
           </ol>
         </div>
       </div>
+       
     </div>
   );
 }

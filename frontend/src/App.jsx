@@ -113,6 +113,28 @@ const submitRecipe = async () => {
   }
 };
 
+const deleteRecipe = async (id) => {
+    const yakin = window.confirm(
+      "Yakin ingin menghapus resep ini?"
+    );
+
+    if (!yakin) return;
+
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/resep/${id}`
+      );
+
+      alert("Resep berhasil dihapus");
+
+      getRecipes();
+
+    } catch (error) {
+      console.log(error);
+      alert("Gagal menghapus resep");
+    }
+  };
+
   // FILTER
   const filteredRecipes = recipes.filter((item) => {
     const cocokKategori =
@@ -181,7 +203,10 @@ const submitRecipe = async () => {
           Tidak ada resep ditemukan.
         </p>
       ) : (
-        <RecipeList data={currentData} />
+        <RecipeList
+          data={currentData}
+          deleteRecipe={deleteRecipe}
+        />
       )}
 
       {totalPages > 1 && (
