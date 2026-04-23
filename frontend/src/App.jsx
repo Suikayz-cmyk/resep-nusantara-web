@@ -84,12 +84,21 @@ function App() {
         setFormData={setFormData}
       />
 
-      <FilterBar
-        kategori={kategori}
-        setKategori={setKategori}
-        kesulitan={kesulitan}
-        setKesulitan={setKesulitan}
-      />
+      <div className="top-bar">
+        <FilterBar
+          kategori={kategori}
+          setKategori={setKategori}
+          kesulitan={kesulitan}
+          setKesulitan={setKesulitan}
+        />
+
+        <button
+          className="add-btn"
+          onClick={() => setIsOpen(true)}
+        >
+          + Tambah Resep
+        </button>
+      </div>
 
       <RecipeList data={currentData} />
 
