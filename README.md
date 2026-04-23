@@ -6,7 +6,7 @@
 - **Nim:** 2410501046
 - **Program Studi:** D3 Sistem Informasi
 
-## Deskripsi App / Web
+## Deskripsi Web
 
 Resep Nusantara Web adalah aplikasi web fullstack yang dibuat untuk menampilkan daftar resep masakan tradisional Indonesia sebagai bentuk dukungan digitalisasi UMKM kuliner Indonesia.
 
@@ -77,16 +77,26 @@ cd resep-nusantara-web
 
 ### 3. Setup Database
 
-- Jalankan XAMPP
-- Aktifkan Apache dan MySQL
-- Buka phpMyAdmin
-- Buat database baru:
+- Jalankan **XAMPP**
+- Aktifkan **Apache** dan **MySQL**
+- Buka **phpMyAdmin**
+- Buat database baru dengan nama:
 
 ```sql
 resep_nusantara
 ```
 
-- Import file SQL jika tersedia
+- Pilih database `resep_nusantara`
+- Klik menu **Import**
+- Pilih file berikut:
+
+```text
+database/resep_nusantara.sql
+```
+
+- Klik **Go / Import**
+
+Setelah berhasil, tabel database akan otomatis dibuat beserta data resep yang tersedia.
 
 ### 4. Jalankan Backend
 
