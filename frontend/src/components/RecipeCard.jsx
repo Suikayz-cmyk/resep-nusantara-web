@@ -42,20 +42,25 @@ function RecipeCard({
       <p>Kesulitan: {resep.kesulitan}</p>
 
       <div className={`accordion ${open ? "show" : ""}`}>
-        <div className="accordion-content">
-          <h4>Bahan:</h4>
-          <ul>
-            <li>Bahan tersedia di database</li>
-            <li>Versi detail menyusul phase berikutnya</li>
-          </ul>
+       <div className="accordion-content">
+        <h4>Bahan:</h4>
 
-          <h4>Langkah:</h4>
-          <ol>
-            <li>Siapkan bahan</li>
-            <li>Masak dengan benar</li>
-            <li>Sajikan hangat</li>
-          </ol>
-        </div>
+        <ul>
+          {resep.bahan &&
+            resep.bahan.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+        </ul>
+
+        <h4>Langkah:</h4>
+
+        <ol>
+          {resep.langkah &&
+            resep.langkah.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+        </ol>
+      </div>
       </div>
        
     </div>

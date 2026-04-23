@@ -40,7 +40,9 @@ function App() {
 
       const response = await axios.get(
         "http://localhost:5000/api/resep"
+        
       );
+      console.log(response.data);
 
       setRecipes(response.data);
     } catch (error) {
@@ -225,6 +227,7 @@ return (
         <span>UMKM Digital Project • 2026</span>
       </div>
     </footer>
+
   </div>
 );
 }
