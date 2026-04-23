@@ -8,14 +8,12 @@ import "./App.css";
 
 function App() {
   const [loading, setLoading] = useState(true);
-
   const [recipes, setRecipes] = useState([]);
 
   const [kategori, setKategori] = useState("");
   const [kesulitan, setKesulitan] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-
   const itemsPerPage = 6;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -25,95 +23,97 @@ function App() {
     kategori: "",
     kesulitan: "",
     bahan: [""],
-    langkah: [""]
+    langkah: [""],
   });
 
   useEffect(() => {
     getRecipes();
   }, []);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [kategori, kesulitan]);
+
   const getRecipes = async () => {
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const response = await axios.get(
-      "http://localhost:5000/api/resep"
-    );
+      const response = await axios.get(
+        "http://localhost:5000/api/resep"
+      );
 
-    setRecipes(response.data);
-
-  } catch (error) {
-    console.log(error);
-  } finally {
-    setLoading(false);
-  }
-};
-
-const submitRecipe = async () => {
-  try {
-    const bahanValid = formData.bahan.filter(
-      (item) => item.trim() !== ""
-    );
-
-    const langkahValid = formData.langkah.filter(
-      (item) => item.trim() !== ""
-    );
-
-    if (bahanValid.length < 1) {
-      alert("Minimal 1 bahan wajib diisi");
-      return;
+      setRecipes(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    if (langkahValid.length < 1) {
-      alert("Minimal 1 langkah wajib diisi");
-      return;
-    }
+  const submitRecipe = async () => {
+    try {
+      const bahanValid = formData.bahan.filter(
+        (item) => item.trim() !== ""
+      );
 
-    if (
-      !formData.nama ||
-      !formData.kategori ||
-      !formData.kesulitan
-    ) {
-      alert("Lengkapi data utama");
-      return;
-    }
+      const langkahValid = formData.langkah.filter(
+        (item) => item.trim() !== ""
+      );
 
-    const yakin = window.confirm(
-      "Yakin ingin menambah resep?"
-    );
-
-    if (!yakin) return;
-
-    await axios.post(
-      "http://localhost:5000/api/resep",
-      {
-        ...formData,
-        bahan: bahanValid,
-        langkah: langkahValid
+      if (bahanValid.length < 1) {
+        alert("Minimal 1 bahan wajib diisi");
+        return;
       }
-    );
 
-    alert("Resep berhasil ditambahkan");
+      if (langkahValid.length < 1) {
+        alert("Minimal 1 langkah wajib diisi");
+        return;
+      }
 
-    setIsOpen(false);
+      if (
+        !formData.nama ||
+        !formData.kategori ||
+        !formData.kesulitan
+      ) {
+        alert("Lengkapi data utama");
+        return;
+      }
 
-    setFormData({
-      nama: "",
-      kategori: "",
-      kesulitan: "",
-      bahan: [""],
-      langkah: [""]
-    });
+      const yakin = window.confirm(
+        "Yakin ingin menambah resep?"
+      );
 
-    getRecipes();
+      if (!yakin) return;
 
-  } catch (error) {
-    console.log(error);
-    alert("Gagal menambah resep");
-  }
-};
+      await axios.post(
+        "http://localhost:5000/api/resep",
+        {
+          ...formData,
+          bahan: bahanValid,
+          langkah: langkahValid,
+        }
+      );
 
-const deleteRecipe = async (id) => {
+      alert("Resep berhasil ditambahkan");
+
+      setIsOpen(false);
+
+      setFormData({
+        nama: "",
+        kategori: "",
+        kesulitan: "",
+        bahan: [""],
+        langkah: [""],
+      });
+
+      getRecipes();
+    } catch (error) {
+      console.log(error);
+      alert("Gagal menambah resep");
+    }
+  };
+
+  const deleteRecipe = async (id) => {
     const yakin = window.confirm(
       "Yakin ingin menghapus resep ini?"
     );
@@ -128,14 +128,12 @@ const deleteRecipe = async (id) => {
       alert("Resep berhasil dihapus");
 
       getRecipes();
-
     } catch (error) {
       console.log(error);
       alert("Gagal menghapus resep");
     }
   };
 
-  // FILTER
   const filteredRecipes = recipes.filter((item) => {
     const cocokKategori =
       kategori === "" ||
@@ -148,7 +146,6 @@ const deleteRecipe = async (id) => {
     return cocokKategori && cocokKesulitan;
   });
 
-  // PAGINATION
   const totalPages = Math.ceil(
     filteredRecipes.length / itemsPerPage
   );
@@ -161,66 +158,72 @@ const deleteRecipe = async (id) => {
     startIndex + itemsPerPage
   );
 
-  // reset page kalau filter berubah
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [kategori, kesulitan]);
-
   return (
-    <div className="container">
-      <h1>Resep Nusantara</h1>
-      
-      <AddRecipeModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        formData={formData}
-        setFormData={setFormData}
-        submitRecipe={submitRecipe}
-      />
+    <>
+      <div className="container">
+        <div className="page-card">
+          <h1>Resep Nusantara</h1>
+        </div>
 
-      <div className="top-bar">
-        <FilterBar
-          kategori={kategori}
-          setKategori={setKategori}
-          kesulitan={kesulitan}
-          setKesulitan={setKesulitan}
+        <div className="control-card">
+          <div className="top-bar">
+            <FilterBar
+              kategori={kategori}
+              setKategori={setKategori}
+              kesulitan={kesulitan}
+              setKesulitan={setKesulitan}
+            />
+
+            <button
+              className="add-btn"
+              onClick={() => setIsOpen(true)}
+            >
+              + Tambah Resep
+            </button>
+          </div>
+        </div>
+
+        {loading ? (
+          <p className="status-text">
+            Loading resep...
+          </p>
+        ) : currentData.length === 0 ? (
+          <p className="status-text">
+            Tidak ada resep ditemukan.
+          </p>
+        ) : (
+          <RecipeList
+            data={currentData}
+            deleteRecipe={deleteRecipe}
+          />
+        )}
+
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
+
+        <AddRecipeModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          formData={formData}
+          setFormData={setFormData}
+          submitRecipe={submitRecipe}
         />
-
-        <button
-          className="add-btn"
-          onClick={() => setIsOpen(true)}
-        >
-          + Tambah Resep
-        </button>
       </div>
 
-      {loading ? (
-        <p className="status-text">
-          Loading resep...
-        </p>
-      ) : currentData.length === 0 ? (
-        <p className="status-text">
-          Tidak ada resep ditemukan.
-        </p>
-      ) : (
-        <RecipeList
-          data={currentData}
-          deleteRecipe={deleteRecipe}
-        />
-      )}
-
-      {totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          setCurrentPage={setCurrentPage}
-        />
-      )}
-
       <footer className="footer">
-        <p>Resep Nusantara © 2026</p>
+        <div className="footer-inner">
+          <p>Resep Nusantara</p>
+          <span>
+            UMKM Digital Project • 2026
+          </span>
+        </div>
       </footer>
-    </div>
+    </>
   );
 }
 
