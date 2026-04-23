@@ -63,3 +63,35 @@ h1 {
   background: #222;
   color: white;
 }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.accordion {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.accordion.show {
+  max-height: 400px;
+}
+
+.accordion-content {
+  margin-top: 15px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.accordion-content h4 {
+  margin-bottom: 8px;
+}
+
+.accordion-content ul,
+.accordion-content ol {
+  padding-left: 20px;
+}
