@@ -2,7 +2,8 @@ function AddRecipeModal({
   isOpen,
   setIsOpen,
   formData,
-  setFormData
+  setFormData,
+  submitRecipe
 }) {
   if (!isOpen) return null;
 
@@ -164,9 +165,12 @@ function AddRecipeModal({
           + Tambah Langkah
         </button>
 
-        <button className="submit-btn">
-          Submit Resep
-        </button>
+       <button
+        className="submit-btn"
+        onClick={submitRecipe}
+        >
+        Submit Resep
+      </button>
       </div>
     </div>
   );

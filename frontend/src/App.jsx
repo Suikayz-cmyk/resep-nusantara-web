@@ -37,6 +37,70 @@ function App() {
     setRecipes(response.data);
   };
 
+const submitRecipe = async () => {
+  try {
+    const bahanValid = formData.bahan.filter(
+      (item) => item.trim() !== ""
+    );
+
+    const langkahValid = formData.langkah.filter(
+      (item) => item.trim() !== ""
+    );
+
+    if (bahanValid.length < 1) {
+      alert("Minimal 1 bahan wajib diisi");
+      return;
+    }
+
+    if (langkahValid.length < 1) {
+      alert("Minimal 1 langkah wajib diisi");
+      return;
+    }
+
+    if (
+      !formData.nama ||
+      !formData.kategori ||
+      !formData.kesulitan
+    ) {
+      alert("Lengkapi data utama");
+      return;
+    }
+
+    const yakin = window.confirm(
+      "Yakin ingin menambah resep?"
+    );
+
+    if (!yakin) return;
+
+    await axios.post(
+      "http://localhost:5000/api/resep",
+      {
+        ...formData,
+        bahan: bahanValid,
+        langkah: langkahValid
+      }
+    );
+
+    alert("Resep berhasil ditambahkan");
+
+    setIsOpen(false);
+
+    setFormData({
+      nama: "",
+      kategori: "",
+      kesulitan: "",
+      bahan: [""],
+      langkah: [""]
+    });
+
+    getRecipes();
+
+  } catch (error) {
+    console.log(error);
+    alert("Gagal menambah resep");
+  }
+};
+
   // FILTER
   const filteredRecipes = recipes.filter((item) => {
     const cocokKategori =
@@ -72,18 +136,12 @@ function App() {
     <div className="container">
       <h1>Resep Nusantara</h1>
       
-      <button
-        className="add-btn"
-        onClick={() => setIsOpen(true)}
-      >
-        + Tambah Resep
-      </button>
-
       <AddRecipeModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         formData={formData}
         setFormData={setFormData}
+        submitRecipe={submitRecipe}
       />
 
       <div className="top-bar">
