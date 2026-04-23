@@ -1,14 +1,55 @@
 const db = require("../config/db");
 
 const getAllResep = (req, res) => {
-  const sql = "SELECT * FROM resep ORDER BY id DESC";
+  const sql = `
+    SELECT 
+      r.id,
+      r.nama,
+      r.kategori,
+      r.kesulitan,
+      b.nama_bahan,
+      l.deskripsi
+    FROM resep r
+    LEFT JOIN bahan b ON r.id = b.resep_id
+    LEFT JOIN langkah l ON r.id = l.resep_id
+    ORDER BY r.id DESC
+  `;
 
   db.query(sql, (err, result) => {
     if (err) {
       return res.status(500).json(err);
     }
 
-    res.json(result);
+    const grouped = {};
+
+    result.forEach((row) => {
+      if (!grouped[row.id]) {
+        grouped[row.id] = {
+          id: row.id,
+          nama: row.nama,
+          kategori: row.kategori,
+          kesulitan: row.kesulitan,
+          bahan: [],
+          langkah: []
+        };
+      }
+
+      if (
+        row.nama_bahan &&
+        !grouped[row.id].bahan.includes(row.nama_bahan)
+      ) {
+        grouped[row.id].bahan.push(row.nama_bahan);
+      }
+
+      if (
+        row.deskripsi &&
+        !grouped[row.id].langkah.includes(row.deskripsi)
+      ) {
+        grouped[row.id].langkah.push(row.deskripsi);
+      }
+    });
+
+    res.json(Object.values(grouped));
   });
 };
 
@@ -37,7 +78,9 @@ const addResep = (req, res) => {
       );
     });
 
-    res.status(201).json({ message: "Resep berhasil ditambahkan" });
+    res.status(201).json({
+      message: "Resep berhasil ditambahkan"
+    });
   });
 };
 
@@ -46,7 +89,7 @@ const deleteResep = (req, res) => {
 
   const sql = "DELETE FROM resep WHERE id = ?";
 
-  db.query(sql, [id], (err, result) => {
+  db.query(sql, [id], (err) => {
     if (err) {
       return res.status(500).json(err);
     }
