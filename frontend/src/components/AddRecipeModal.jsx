@@ -1,3 +1,5 @@
+import { X } from "lucide-react";
+
 function AddRecipeModal({
   isOpen,
   setIsOpen,
@@ -54,7 +56,7 @@ function AddRecipeModal({
           <h2>Tambah Resep</h2>
 
           <button onClick={() => setIsOpen(false)}>
-            ✖
+            <X size={20} />
           </button>
         </div>
 

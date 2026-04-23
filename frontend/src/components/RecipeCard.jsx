@@ -1,4 +1,9 @@
 import { useState } from "react";
+import {
+  Trash2,
+  ChevronDown,
+  ChevronUp
+} from "lucide-react";
 
 function RecipeCard({
   resep,
@@ -13,14 +18,22 @@ function RecipeCard({
         onClick={() => setOpen(!open)}
       >
         <h2>{resep.nama}</h2>
-        <button
-          className="delete-mini-btn"
-          onClick={() => deleteRecipe(resep.id)}
-        >
-        🗑
-        </button>
+       <button
+        className="delete-mini-btn"
+        onClick={(e) => {
+          e.stopPropagation();
+          deleteRecipe(resep.id);
+        }}
+      >
+        <Trash2 size={16} />
+      </button>
        
-        <span>{open ? "▲" : "▼"}</span>
+          {open ? (
+            <ChevronUp size={18} />
+          ) : (
+            <ChevronDown size={18} />
+          )}
+
       </div>
 
       <p>Kategori: {resep.kategori}</p>
