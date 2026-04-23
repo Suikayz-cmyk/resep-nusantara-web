@@ -3,6 +3,7 @@ import axios from "axios";
 import RecipeList from "./components/RecipeList";
 import FilterBar from "./components/FilterBar";
 import Pagination from "./components/Pagination";
+import AddRecipeModal from "./components/AddRecipeModal";
 import "./App.css";
 
 function App() {
@@ -14,6 +15,14 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 6;
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [formData, setFormData] = useState({
+    nama: "",
+    kategori: "",
+    kesulitan: ""
+  });
 
   useEffect(() => {
     getRecipes();
@@ -59,7 +68,21 @@ function App() {
 
   return (
     <div className="container">
-      <h1>🍛 Resep Nusantara</h1>
+      <h1>Resep Nusantara</h1>
+      
+      <button
+        className="add-btn"
+        onClick={() => setIsOpen(true)}
+      >
+        + Tambah Resep
+      </button>
+
+      <AddRecipeModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        formData={formData}
+        setFormData={setFormData}
+      />
 
       <FilterBar
         kategori={kategori}
